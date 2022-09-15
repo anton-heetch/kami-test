@@ -22,8 +22,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.4.0",
     "prettier": "^2.7.1",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.17.0",
     "sass": "^1.54.5",
-    "vite": "^3.1.0",
-    "vuetify": "^2.6.10"
+    "vite": "^3.1.0"
   }
 }
