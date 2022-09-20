@@ -7,13 +7,12 @@ import ProdCreate from './pages/products/Create.vue'
 import EditProduct from './pages/products/edit/[slug].vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
-import PrimeVue from 'primevue/config'
+import 'mdb-vue-ui-kit/css/mdb.min.css'
 
 const pinia = createPinia()
 
 const routes = [
-	{ path: '/', component: Index },
-	{ path: '/products', component: Products },
+	{ path: '/', component: Products },
 	{ path: '/products/create', component: ProdCreate },
 	{ path: '/products/edit/:id', component: EditProduct },
 ]
@@ -27,6 +26,5 @@ const app = createApp(App)
 
 app.use(pinia)
 app.use(router)
-app.use(PrimeVue)
 
 app.mount('#app')

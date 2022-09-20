@@ -1,23 +1,25 @@
 <script setup>
-import TabMenu from 'primevue/tabmenu'
-
-const items = [
-	{ label: 'Home', icon: 'pi pi-fw pi-home', to: '/' },
-	{ label: 'Products', icon: 'pi pi-fw pi-calendar', to: '/products' },
-	{
-		label: 'Add New Product',
-		icon: 'pi pi-fw pi-pencil',
-		to: '/products/create',
-	},
-]
+import { MDBNavbar, MDBNavbarNav, MDBNavbarItem } from 'mdb-vue-ui-kit'
 </script>
 <template>
-	<nav>
-		<TabMenu :model="items" />
-	</nav>
+	<MDBNavbar light bg="light" expand="lg" container>
+		<MDBNavbarNav collapse="navbarNav">
+			<MDBNavbarItem to="/"> Главная </MDBNavbarItem>
+			<MDBNavbarItem to="/products"> Продукты </MDBNavbarItem>
+			<MDBNavbarItem to="/products/create"> Добавить продукт </MDBNavbarItem>
+		</MDBNavbarNav>
+	</MDBNavbar>
 </template>
 <style lang="scss" scoped>
 nav {
 	margin-bottom: 40px;
+
+	.navbar-nav {
+		flex-direction: row;
+
+		li {
+			margin-right: 20px;
+		}
+	}
 }
 </style>
