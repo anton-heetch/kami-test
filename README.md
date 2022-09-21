@@ -1,7 +1,10 @@
-# Vue 3 + Vite
+# Test crud project for KAMI
+### Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> yarn insall
 
-## Recommended IDE Setup
+> yarn dev
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+> yarn build
+
+### Node version: > 14.2
