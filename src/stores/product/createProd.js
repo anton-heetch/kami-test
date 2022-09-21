@@ -20,6 +20,29 @@ export const useCreateProd = defineStore('createProd', () => {
 		isActive: false,
 	})
 
+	const formValidate = () => {
+		const errors = []
+
+		const toValidFields = {
+			title: state.title,
+			prices: state.prices,
+			images: tempImages.value.length,
+		}
+
+		for (const el in toValidFields) {
+			if (toValidFields[el] === '') {
+				errors.push(el)
+			} else if (el === 'prices') {
+				for (const item in toValidFields[el]) {
+					if (toValidFields[el][item] === '') errors.push(item)
+				}
+			} else if (el === 'images') {
+				if (toValidFields[el] === 0) errors.push(el)
+			}
+		}
+		return errors
+	}
+
 	const samePrice = () => {
 		for (let item in state.prices) {
 			state.prices[item] = state.priceForAll
@@ -50,5 +73,5 @@ export const useCreateProd = defineStore('createProd', () => {
 		await fetchListings()
 	}
 
-	return { state, samePrice, addToServer, resetState }
+	return { state, samePrice, addToServer, resetState, formValidate }
 })

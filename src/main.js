@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import './assets/styles/style.scss'
 import App from './App.vue'
-import Index from './pages/Index.vue'
 import Products from './pages/products/Index.vue'
 import ProdCreate from './pages/products/Create.vue'
 import EditProduct from './pages/products/edit/[slug].vue'

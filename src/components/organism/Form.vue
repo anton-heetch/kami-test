@@ -5,7 +5,7 @@ import { MDBInput, MDBCheckbox, MDBBtn, MDBRow } from 'mdb-vue-ui-kit'
 import { v4 as uuidv4 } from 'uuid'
 import { storeToRefs } from 'pinia'
 import { useCreateProd } from '../../stores/product/createProd.js'
-import { watch, ref, defineProps, inject } from 'vue'
+import { watch, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { createToaster } from '@meforma/vue-toaster'
 
@@ -23,7 +23,7 @@ const props = defineProps({
 })
 const toaster = createToaster()
 const { state } = storeToRefs(useCreateProd())
-const { samePrice, addToServer, resetState } = useCreateProd()
+const { samePrice, addToServer, resetState, formValidate } = useCreateProd()
 const isPriceForAll = ref(false)
 
 const providedId = () => {
@@ -31,13 +31,14 @@ const providedId = () => {
 }
 
 const checkForm = (e) => {
-	e.target.classList.add('was-validated')
-	addToServer(providedId())
-	resetState()
-	router.push({ path: '/' })
-	props.isUpdate
-		? toaster.info('Данные товара обновлены!')
-		: toaster.success('Товар успешно добавлен')
+	if (formValidate().length === 0) {
+		addToServer(providedId())
+		resetState()
+		router.push({ path: '/' })
+		props.isUpdate
+			? toaster.info('Данные товара обновлены!')
+			: toaster.success('Товар успешно добавлен!')
+	} else toaster.error('Обязательные поля не заполнены')
 }
 
 const resetForm = () => {
@@ -57,7 +58,12 @@ watch(isPriceForAll, () => {
 		@submit.prevent="checkForm"
 	>
 		<div class="form__title">
-			<MDBInput type="text" label="Название" v-model="state.title" required />
+			<MDBInput
+				type="text"
+				label="Название"
+				v-model="state.title"
+				:class="formValidate().includes('title') ? 'is-invalid' : ''"
+			/>
 		</div>
 		<div class="form__available">
 			<MDBCheckbox label="Доступен в продажу" v-model="state.isActive" />
@@ -69,7 +75,9 @@ watch(isPriceForAll, () => {
 		</div>
 
 		<div class="form__upload">
-			Загрузить изображение
+			<span :class="formValidate().includes('images') ? 'is-invalid' : ''"
+				>Загрузить изображение</span
+			>
 			<MediaUpload />
 		</div>
 
@@ -85,7 +93,7 @@ watch(isPriceForAll, () => {
 					label="На все города"
 					class="prices__price"
 					v-model="state.priceForAll"
-					:required="isPriceForAll"
+					@keyup="isPriceForAll ? samePrice() : null"
 				/>
 			</div>
 			<div class="prices__cities">
@@ -93,20 +101,20 @@ watch(isPriceForAll, () => {
 					type="text"
 					label="Алматы"
 					class="prices__price"
+					:class="formValidate().includes('almaty') ? 'is-invalid' : ''"
 					v-model="state.prices.almaty"
-					required
 				/>
 				<MDBInput
 					type="text"
 					label="Астана"
 					class="prices__price"
+					:class="formValidate().includes('astana') ? 'is-invalid' : ''"
 					v-model="state.prices.astana"
-					required
 				/>
 			</div>
 		</div>
 		<div class="footer">
-			<MDBBtn type="button" outline="warning" @click.native="resetForm"
+			<MDBBtn type="button" outline="primary" @click.native="resetForm"
 				>Отмена</MDBBtn
 			>
 			<MDBBtn type="submit" color="success">{{
@@ -121,6 +129,10 @@ form {
 	flex-direction: column;
 	text-align: left;
 	padding-bottom: 60px;
+
+	span.is-invalid {
+		color: red;
+	}
 
 	.form-control:invalid,
 	.form-control:valid {

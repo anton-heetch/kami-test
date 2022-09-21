@@ -19,7 +19,6 @@ const { tempImages, uploadProgress, isUploading } = storeToRefs(
 				type="file"
 				accept="image/png, image/jpg, image/gif, image/jpeg"
 				@change="attachFiles"
-				required
 			/>
 		</label>
 		<div v-for="item in tempImages" :key="uuidv4()" class="imgCont__item">
